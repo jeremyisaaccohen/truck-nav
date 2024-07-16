@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Commercial Navigation</title>
+</head>
+<body>
+    <form action="/" method="post">
+        <label for="from_address">From Address:</label>
+        <input type="text" id="from_address" name="from_address"><br><br>
+        <label for="to_address">To Address:</label>
+        <input type="text" id="to_address" name="to_address"><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if result %}
+        <p>{{ result }}</p>
+    {% endif %}
+</body>
+</html>

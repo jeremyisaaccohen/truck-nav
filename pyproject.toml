@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "truck-nav"
+version = "0.1.0"
+description = ""
+authors = ["Jeremy Cohen <jeremycohen2323@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.1"
+psycopg2 = "^2.9.9"
+kafka-python = "^2.0.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
