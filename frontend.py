@@ -32,6 +32,7 @@ async def post(request: Request, from_address: str = Form(...), to_address: str 
     print(f"jib request: {request}\njib from{ from_address} to: {to_address}")
     try:
         data = {"from_address": from_address, "to_address":to_address}
+
         print(data)
         dumped = json.dumps(data)
         encoded = dumped.encode('utf-8')

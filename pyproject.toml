@@ -10,6 +10,8 @@ python = "^3.11"
 fastapi = "^0.111.1"
 psycopg2 = "^2.9.9"
 kafka-python = "^2.0.2"
+google-api-python-client = "^2.137.0"
+googlemaps = "^4.10.0"
 
 
 [build-system]
