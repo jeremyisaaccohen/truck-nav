@@ -4,7 +4,7 @@ from kafka import KafkaConsumer
 from constants import TRAFFIC_TOPIC_NAME, BOOTSTRAP_SERVERS
 import psycopg2
 
-from google_maps import get_directions_gmaps
+from google_maps import get_directions_gmaps, get_directions
 
 consumer = KafkaConsumer(TRAFFIC_TOPIC_NAME, bootstrap_servers=[BOOTSTRAP_SERVERS], auto_offset_reset='latest')
 
@@ -18,7 +18,7 @@ for message in consumer:
         from_address = vals['from_address']
         to_address = vals['to_address']
 
-        directions = get_directions_gmaps(from_address, to_address)
+        directions = get_directions(from_address, to_address)
         # TODO: If inactive for a few seconds, weve exhausted consumer, print how many weve inserted.
     except:
         print(f"Error parsing {message}")

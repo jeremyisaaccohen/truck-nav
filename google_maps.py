@@ -1,21 +1,32 @@
 import os
-from datetime import datetime
-
 from dotenv import load_dotenv
 import requests
-import googlemaps
-from googlemaps import Client
 
 
-def get_directions(api_key, origin, destination):
-    maps_url = "https://routes.googleapis.com/$discovery/rest?version=v2"
-    params = {
-        "origin": origin,
-        "destination": destination,
-        "mode": "driving",
-        "key": api_key
+def get_directions(origin, destination):
+    load_dotenv()
+    API_KEY = os.getenv("GOOGLE_API_KEY")
+    maps_url = "https://routes.googleapis.com/directions/v2:computeRoutes"
+
+    headers = {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': API_KEY,
+        'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.legs.steps.navigationInstruction,routes.legs.steps.localizedValues'
     }
-    response = requests.get(maps_url, params=params)
+    payload = {
+        "origin": {"address": origin},
+        "destination": {"address": destination},
+        "travelMode": "DRIVE",
+        # "routingPreference": "TRAFFIC_AWARE",
+        # "routeModifiers": {
+        #     "avoidTolls": False,
+        #     "avoidHighways": False,
+        #     "avoidFerries": False
+        # },
+        # "key": API_KEY,
+        "computeAlternativeRoutes": True
+    }
+    response = requests.post(maps_url, headers=headers, json=payload)
     if response.status_code == 200:
         directions = response.json()
         print(directions)
@@ -24,23 +35,7 @@ def get_directions(api_key, origin, destination):
         print(f"Error: {response.status_code}, {response.text}")
 
 
-def get_directions_gmaps(origin, destination):
-    load_dotenv()
-    API_KEY = os.getenv("GOOGLE_API_KEY")
-    gmaps: Client = googlemaps.Client(key=API_KEY)
-    now = datetime.now()
-    directions_result = gmaps.directions(origin,
-                                         destination,
-                                         mode="driving",
-                                         departure_time=now)
-    print(directions_result)
-
 if __name__ == "__main__":
-
-    origin = "Boston, MA"
-    destination = "New York, NY"
-    # load my api key from .env, DONT commit that lol
-    load_dotenv()
-    API_KEY = os.getenv("GOOGLE_API_KEY")
-    dirs = get_directions_gmaps(API_KEY, origin, destination)
-    # print(dirs['geocoded_waypoints'])
+    origin = "Nyack, NY 10960"
+    destination = "Valley Cottage, NY 10989"
+    dirs = get_directions(origin, destination)
